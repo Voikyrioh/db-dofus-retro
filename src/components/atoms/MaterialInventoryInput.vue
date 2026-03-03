@@ -23,7 +23,7 @@ function handleInput(event: Event) {
     <ItemSprite :category="requirement.item.sprite?.category" :sprite="requirement.item.sprite?.sprite" :size="32" />
     <div class="flex-1 min-w-0">
       <p class="text-sm text-gray-100 truncate">{{ requirement.item.name }}</p>
-      <p class="text-xs text-gray-500">Need: {{ requirement.needed }}</p>
+      <p class="text-xs text-gray-500"><span v-translate="'need_label'"></span> {{ requirement.needed }}</p>
     </div>
     <div class="flex items-center gap-2">
       <input

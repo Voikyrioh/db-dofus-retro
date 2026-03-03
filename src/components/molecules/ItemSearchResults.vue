@@ -17,7 +17,7 @@ const emit = defineEmits<{
   <div class="w-full">
     <!-- Loading state -->
     <div v-if="loading" class="text-center py-8">
-      <p class="text-gray-400">Searching...</p>
+      <p class="text-gray-400" v-translate="'searching_label'"></p>
     </div>
 
     <!-- Error state -->
@@ -27,7 +27,11 @@ const emit = defineEmits<{
 
     <!-- Results -->
     <div v-else-if="items.length > 0" class="space-y-4">
-      <p class="text-gray-400 text-sm">Found {{ items.length }} item{{ items.length !== 1 ? 's' : '' }}</p>
+      <p class="text-gray-400 text-sm">
+        <span v-translate="'found_label'"></span>
+        {{ items.length }}
+        <span v-translate="items.length !== 1 ? 'item_plural' : 'item_singular'"></span>
+      </p>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <ItemCard
           v-for="item in items"
@@ -40,7 +44,7 @@ const emit = defineEmits<{
 
     <!-- No results -->
     <div v-else class="text-center py-8">
-      <p class="text-gray-400">No items found</p>
+      <p class="text-gray-400" v-translate="'no_items_found'"></p>
     </div>
   </div>
 </template>

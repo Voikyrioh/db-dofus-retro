@@ -65,17 +65,17 @@ async function handleCraft(itemId: number) {
 
     <main class="flex-1 container mx-auto px-4 py-8">
       <div class="max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-2">Crafting List</h2>
-        <p class="text-gray-400 text-center mb-8">
-          Manage your crafting goals and track required materials
-        </p>
+        <h2 class="text-3xl font-bold text-center mb-2" v-translate="'crafting_page_title'"></h2>
+        <p class="text-gray-400 text-center mb-8" v-translate="'crafting_page_subtitle'"></p>
 
         <!-- Success notification -->
         <div
           v-if="craftingSuccess"
           class="mb-6 bg-green-900/20 border border-green-600 rounded-lg p-4 text-center"
         >
-          <p class="text-green-400 font-semibold">✓ Successfully crafted {{ craftedItemName }}!</p>
+          <p class="text-green-400 font-semibold">
+            <span v-translate="'craft_success_prefix'"></span> {{ craftedItemName }}!
+          </p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -83,41 +83,37 @@ async function handleCraft(itemId: number) {
           <div>
             <div class="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-6">
               <div class="flex items-center justify-between mb-4">
-                <h3 class="text-xl font-bold text-blue-400">Items to Craft</h3>
+                <h3 class="text-xl font-bold text-blue-400" v-translate="'items_to_craft'"></h3>
                 <button
                   v-if="craftingList.some(e => e.crafted)"
                   @click="clearCrafted"
                   class="px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 rounded transition-colors"
-                >
-                  Clear crafted
-                </button>
+                  v-translate="'clear_crafted'"
+                ></button>
               </div>
 
               <div v-if="!craftingList.some(e => !e.crafted) && craftingList.length === 0" class="text-center py-8">
-                <p class="text-gray-400 mb-4">Your crafting list is empty</p>
+                <p class="text-gray-400 mb-4" v-translate="'crafting_list_empty'"></p>
                 <button
                   @click="navigateToSearch"
                   class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
-                >
-                  Search Items
-                </button>
+                  v-translate="'search_items_button'"
+                ></button>
               </div>
 
               <div v-else-if="!craftingList.some(e => !e.crafted) && craftingList.length > 0" class="text-center py-8">
-                <p class="text-green-400 font-semibold mb-2">✓ All items crafted!</p>
+                <p class="text-green-400 font-semibold mb-2" v-translate="'all_items_crafted'"></p>
                 <div class="flex justify-center gap-3">
                   <button
                     @click="clearCrafted"
                     class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
-                  >
-                    Clear list
-                  </button>
+                    v-translate="'clear_list'"
+                  ></button>
                   <button
                     @click="navigateToSearch"
                     class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
-                  >
-                    Search more items
-                  </button>
+                    v-translate="'search_more_items'"
+                  ></button>
                 </div>
               </div>
 
@@ -145,7 +141,7 @@ async function handleCraft(itemId: number) {
 
             <!-- Loading/Error States -->
             <div v-if="loading" class="bg-gray-800 border border-gray-700 rounded-lg p-4 text-center">
-              <p class="text-gray-400">Calculating requirements...</p>
+              <p class="text-gray-400" v-translate="'calculating_requirements'"></p>
             </div>
             <div v-if="error" class="bg-red-900/20 border border-red-700 rounded-lg p-4">
               <p class="text-red-400">{{ error }}</p>

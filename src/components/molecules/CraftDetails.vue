@@ -11,11 +11,11 @@ defineProps<{
 
 <template>
   <div class="bg-gray-800 border border-gray-700 rounded-lg p-6">
-    <h3 class="text-xl font-bold text-blue-400 mb-4">Craft Recipe</h3>
+    <h3 class="text-xl font-bold text-blue-400 mb-4" v-translate="'craft_recipe_title'"></h3>
 
     <!-- Loading state -->
     <div v-if="loading" class="text-center py-4">
-      <p class="text-gray-400">Loading craft details...</p>
+      <p class="text-gray-400" v-translate="'loading_craft'"></p>
     </div>
 
     <!-- Error state -->
@@ -25,12 +25,12 @@ defineProps<{
 
     <!-- No craft available -->
     <div v-else-if="!craft || craft.length === 0" class="text-center py-4">
-      <p class="text-gray-400">This item cannot be crafted or has no recipe available.</p>
+      <p class="text-gray-400" v-translate="'no_craft_recipe'"></p>
     </div>
 
     <!-- Craft ingredients -->
     <div v-else class="space-y-3">
-      <p class="text-sm text-gray-400 mb-3">Required ingredients:</p>
+      <p class="text-sm text-gray-400 mb-3" v-translate="'required_ingredients'"></p>
       <CraftIngredientCard
         v-for="(ingredient, index) in craft"
         :key="index"

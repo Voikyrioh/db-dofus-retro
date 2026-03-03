@@ -23,7 +23,7 @@ const statEntries = computed(() => {
 
 <template>
   <div v-if="hasStats" class="bg-gray-800 border border-gray-700 rounded-lg p-4">
-    <h3 class="text-lg font-semibold text-blue-400 mb-3">Statistics</h3>
+    <h3 class="text-lg font-semibold text-blue-400 mb-3" v-translate="'statistics_title'"></h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
       <StatDisplay
         v-for="stat in statEntries"
@@ -34,9 +34,7 @@ const statEntries = computed(() => {
       />
     </div>
   </div>
-  <div v-else class="bg-gray-800 border border-gray-700 rounded-lg p-4 text-center text-gray-500">
-    No statistics available for this item
-  </div>
+  <div v-else class="bg-gray-800 border border-gray-700 rounded-lg p-4 text-center text-gray-500" v-translate="'no_statistics'"></div>
 </template>
 
 <style scoped>

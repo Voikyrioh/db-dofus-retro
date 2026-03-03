@@ -25,10 +25,10 @@ const emit = defineEmits<{
       <h3 class="text-lg font-semibold text-blue-400 flex-1">{{ item.name }}</h3>
     </div>
     <div class="space-y-1 text-sm text-gray-300">
-      <p><span class="text-gray-500">ID:</span> {{ item.id }}</p>
-      <p><span class="text-gray-500">Type:</span> {{ item.type }}</p>
-      <p><span class="text-gray-500">Level:</span> {{ item.level }}</p>
-      <p><span class="text-gray-500">Weight:</span> {{ item.pod }} pods</p>
+      <p><span class="text-gray-500" v-translate="'label_id'"></span>: {{ item.id }}</p>
+      <p><span class="text-gray-500" v-translate="'label_type'"></span>: {{ item.type }}</p>
+      <p><span class="text-gray-500" v-translate="'label_level'"></span>: {{ item.level }}</p>
+      <p><span class="text-gray-500" v-translate="'label_weight'"></span>: {{ item.pod }} <span v-translate="'label_pods'"></span></p>
     </div>
   </div>
 </template>

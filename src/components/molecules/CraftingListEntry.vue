@@ -18,13 +18,13 @@ const emit = defineEmits<{
     <div class="flex-1">
       <h3 class="font-semibold text-gray-100">{{ entry.item.name }}</h3>
       <p class="text-xs text-gray-400 mt-1">
-        Level {{ entry.item.level }} • Type {{ entry.item.type }}
+        <span v-translate="'label_level'"></span> {{ entry.item.level }} • <span v-translate="'label_type'"></span> {{ entry.item.type }}
       </p>
     </div>
 
     <div class="flex items-center gap-3">
       <div class="flex items-center gap-2">
-        <span class="text-sm text-gray-400">Qty:</span>
+        <span class="text-sm text-gray-400" v-translate="'qty_label'"></span>
         <QuantityInput
           :model-value="entry.quantity"
           @update:model-value="emit('updateQuantity', entry.item.id, $event)"
@@ -34,18 +34,14 @@ const emit = defineEmits<{
       <button
         @click="emit('viewDetails', entry.item.id)"
         class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded transition-colors"
-        title="View details"
-      >
-        View
-      </button>
+        v-translate="'view_button'"
+      ></button>
 
       <button
         @click="emit('remove', entry.item.id)"
         class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded transition-colors"
-        title="Remove from list"
-      >
-        Remove
-      </button>
+        v-translate="'remove_button'"
+      ></button>
     </div>
   </div>
 </template>

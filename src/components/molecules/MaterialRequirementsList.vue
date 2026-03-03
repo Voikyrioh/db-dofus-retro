@@ -17,7 +17,7 @@ const emit = defineEmits<{
   <div>
     <!-- Loading state -->
     <div v-if="loading" class="text-center py-8">
-      <p class="text-gray-400">Calculating material requirements...</p>
+      <p class="text-gray-400" v-translate="'calculating_materials'"></p>
     </div>
 
     <!-- Error state -->
@@ -27,21 +27,21 @@ const emit = defineEmits<{
 
     <!-- No requirements -->
     <div v-else-if="requirements.length === 0" class="text-center py-8">
-      <p class="text-gray-400">No materials required. Add items to your crafting list to see requirements.</p>
+      <p class="text-gray-400" v-translate="'no_materials_required'"></p>
     </div>
 
     <!-- Requirements list -->
     <div v-else class="space-y-3">
       <div class="flex items-center justify-between mb-4">
         <p class="text-sm text-gray-400">
-          {{ requirements.length }} material{{ requirements.length !== 1 ? 's' : '' }} required
+          {{ requirements.length }} <span v-translate="requirements.length !== 1 ? 'material_plural' : 'material_singular'"></span>
         </p>
         <div class="flex gap-4 text-xs">
           <span class="text-green-400">
-            ✓ {{ requirements.filter(r => r.missing === 0).length }} complete
+            ✓ {{ requirements.filter(r => r.missing === 0).length }} <span v-translate="'complete_label'"></span>
           </span>
           <span class="text-red-400">
-            {{ requirements.filter(r => r.missing > 0).length }} missing
+            {{ requirements.filter(r => r.missing > 0).length }} <span v-translate="'missing_label'"></span>
           </span>
         </div>
       </div>

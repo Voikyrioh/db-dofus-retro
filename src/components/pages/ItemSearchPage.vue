@@ -38,10 +38,8 @@ function handleItemClick(item: Item) {
 
     <main class="flex-1 container mx-auto px-4 py-8">
       <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-2">Item Search</h2>
-        <p class="text-gray-400 text-center mb-8">
-          Search for items in the Dofus Retro database
-        </p>
+        <h2 class="text-3xl font-bold text-center mb-2" v-translate="'items_page_title'"></h2>
+        <p class="text-gray-400 text-center mb-8" v-translate="'items_page_subtitle'"></p>
 
         <div class="mb-8">
           <ItemSearchForm @search="handleSearch" />

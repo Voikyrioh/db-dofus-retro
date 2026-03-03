@@ -12,10 +12,10 @@ const emit = defineEmits<{
 
 <template>
   <div class="bg-gray-800 border border-gray-700 rounded-lg p-4">
-    <h3 class="text-lg font-bold text-red-400 mb-3">Missing Materials</h3>
+    <h3 class="text-lg font-bold text-red-400 mb-3" v-translate="'missing_materials_title'"></h3>
 
     <div v-if="missingMaterials.length === 0" class="text-center py-4">
-      <p class="text-green-400 font-semibold">✓ All materials available!</p>
+      <p class="text-green-400 font-semibold" v-translate="'all_materials_available'"></p>
     </div>
 
     <div v-else class="space-y-2">

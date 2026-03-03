@@ -15,24 +15,22 @@ const emit = defineEmits<{
     <div class="flex items-start justify-between mb-3">
       <div class="flex-1">
         <h4 class="font-semibold text-gray-100">{{ requirement.item.name }}</h4>
-        <p class="text-xs text-gray-400 mt-1">Level {{ requirement.item.level }} • {{ requirement.item.pod }} pods</p>
+        <p class="text-xs text-gray-400 mt-1"><span v-translate="'label_level'"></span> {{ requirement.item.level }} • {{ requirement.item.pod }} <span v-translate="'label_pods'"></span></p>
       </div>
-      <div v-if="requirement.missing === 0" class="text-green-400 text-sm font-semibold">
-        ✓ Complete
-      </div>
+      <div v-if="requirement.missing === 0" class="text-green-400 text-sm font-semibold" v-translate="'status_complete'"></div>
     </div>
 
     <div class="grid grid-cols-3 gap-3 text-center text-sm">
       <div>
-        <p class="text-gray-500 text-xs mb-1">Needed</p>
+        <p class="text-gray-500 text-xs mb-1" v-translate="'col_needed'"></p>
         <p class="font-semibold text-blue-400">{{ requirement.needed }}</p>
       </div>
       <div>
-        <p class="text-gray-500 text-xs mb-1">Owned</p>
+        <p class="text-gray-500 text-xs mb-1" v-translate="'col_owned'"></p>
         <p class="font-semibold text-gray-300">{{ requirement.owned }}</p>
       </div>
       <div>
-        <p class="text-gray-500 text-xs mb-1">Missing</p>
+        <p class="text-gray-500 text-xs mb-1" v-translate="'col_missing'"></p>
         <p :class="requirement.missing > 0 ? 'font-semibold text-red-400' : 'font-semibold text-green-400'">
           {{ requirement.missing }}
         </p>
@@ -53,16 +51,14 @@ const emit = defineEmits<{
       <button
         @click="emit('updateInventory', requirement.item.id, requirement.owned + 1)"
         class="flex-1 px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm rounded transition-colors"
-      >
-        + Add 1
-      </button>
+        v-translate="'add_one_button'"
+      ></button>
       <button
         v-if="requirement.owned > 0"
         @click="emit('updateInventory', requirement.item.id, Math.max(0, requirement.owned - 1))"
         class="flex-1 px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 text-sm rounded transition-colors"
-      >
-        - Remove 1
-      </button>
+        v-translate="'remove_one_button'"
+      ></button>
     </div>
   </div>
 </template>

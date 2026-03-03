@@ -53,35 +53,30 @@ onMounted(async () => {
         <div class="flex-1">
         <h3 class="font-semibold" :class="entry.crafted ? 'text-gray-400 line-through' : 'text-gray-100'">{{ entry.item.name }}</h3>
         <p class="text-xs text-gray-400 mt-1">
-          <span v-if="entry.crafted">Crafted</span>
-          <span v-else>Quantity: {{ entry.quantity }}</span>
-          {{ ' • ' }}Level {{ entry.item.level }}
+          <span v-if="entry.crafted" v-translate="'crafted_label'"></span>
+          <span v-else><span v-translate="'quantity_label'"></span> {{ entry.quantity }}</span>
+          {{ ' • ' }}<span v-translate="'label_level'"></span> {{ entry.item.level }}
         </p>
         </div>
       </div>
 
       <div class="flex items-center gap-2">
-        <div v-if="entry.crafted" class="px-2 py-1 bg-gray-700 border border-gray-600 rounded text-xs text-gray-400 font-semibold">
-          ✓ Crafted
-        </div>
-        <div v-else-if="canCraft" class="px-2 py-1 bg-green-900/30 border border-green-600 rounded text-xs text-green-400 font-semibold">
-          ✓ Can Craft
-        </div>
+        <div v-if="entry.crafted" class="px-2 py-1 bg-gray-700 border border-gray-600 rounded text-xs text-gray-400 font-semibold" v-translate="'status_crafted'"></div>
+        <div v-else-if="canCraft" class="px-2 py-1 bg-green-900/30 border border-green-600 rounded text-xs text-green-400 font-semibold" v-translate="'status_can_craft'"></div>
         <button
           @click="emit('remove', entry.item.id)"
           class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded transition-colors"
-        >
-          Remove
-        </button>
+          v-translate="'remove_button'"
+        ></button>
       </div>
     </div>
 
     <!-- Ingredients (hidden when crafted) -->
     <template v-if="!entry.crafted">
-      <div v-if="loading" class="text-xs text-gray-500">Loading ingredients...</div>
-      <div v-else-if="!craft || craft.length === 0" class="text-xs text-gray-500">No craft recipe available</div>
+      <div v-if="loading" class="text-xs text-gray-500" v-translate="'loading_ingredients'"></div>
+      <div v-else-if="!craft || craft.length === 0" class="text-xs text-gray-500" v-translate="'no_craft_available'"></div>
       <div v-else class="space-y-1">
-        <p class="text-xs text-gray-500 mb-2">Ingredients:</p>
+        <p class="text-xs text-gray-500 mb-2" v-translate="'ingredients_label'"></p>
         <div
           v-for="ingredient in craft"
           :key="ingredient.item.id"
@@ -106,9 +101,8 @@ onMounted(async () => {
         v-if="canCraft"
         @click="emit('craft', entry.item.id)"
         class="w-full mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded transition-colors"
-      >
-        Craft 1
-      </button>
+        v-translate="'craft_one_button'"
+      ></button>
     </template>
   </div>
 </template>

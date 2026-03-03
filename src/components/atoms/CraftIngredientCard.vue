@@ -20,7 +20,7 @@ defineProps<{
     <div class="flex-1">
       <h4 class="font-semibold text-gray-100">{{ ingredient.item.name }}</h4>
       <div class="text-xs text-gray-400 mt-1">
-        Level {{ ingredient.item.level }} • {{ ingredient.item.pod }} pods
+        <span v-translate="'label_level'"></span> {{ ingredient.item.level }} • {{ ingredient.item.pod }} <span v-translate="'label_pods'"></span>
       </div>
     </div>
   </div>

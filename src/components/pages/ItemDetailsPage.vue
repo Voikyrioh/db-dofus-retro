@@ -69,7 +69,7 @@ onMounted(() => {
           class="mb-6 text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2"
         >
           <span>←</span>
-          <span>Back to search</span>
+          <span v-translate="'back_to_search'"></span>
         </button>
 
         <!-- Item details -->
@@ -87,16 +87,15 @@ onMounted(() => {
             <!-- Add to Crafting List -->
             <div class="flex items-center gap-3">
               <div v-if="isInList(item.id)" class="text-sm text-green-400">
-                In list ({{ getQuantity(item.id) }})
+                <span v-translate="'in_list_label'"></span> ({{ getQuantity(item.id) }})
               </div>
               <div class="flex items-center gap-2">
                 <QuantityInput v-model="quantityToAdd" :min="1" />
                 <button
                   @click="handleAddToCraftingList"
                   class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded transition-colors"
-                >
-                  Add to List
-                </button>
+                  v-translate="'add_to_list'"
+                ></button>
               </div>
             </div>
           </div>
@@ -106,31 +105,30 @@ onMounted(() => {
             v-if="showAddSuccess"
             class="mb-4 bg-green-900/20 border border-green-700 rounded-lg p-3 flex items-center justify-between"
           >
-            <span class="text-green-400">✓ Added to crafting list!</span>
+            <span class="text-green-400" v-translate="'added_to_list'"></span>
             <button
               @click="goToCraftingList"
               class="text-sm text-blue-400 hover:text-blue-300 underline"
-            >
-              View List
-            </button>
+              v-translate="'view_list'"
+            ></button>
           </div>
 
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <div>
-              <p class="text-gray-500 mb-1">ID</p>
+              <p class="text-gray-500 mb-1" v-translate="'label_id'"></p>
               <p class="text-gray-100 font-semibold">{{ item.id }}</p>
             </div>
             <div>
-              <p class="text-gray-500 mb-1">Type</p>
+              <p class="text-gray-500 mb-1" v-translate="'label_type'"></p>
               <p class="text-gray-100 font-semibold">{{ item.type }}</p>
             </div>
             <div>
-              <p class="text-gray-500 mb-1">Level</p>
+              <p class="text-gray-500 mb-1" v-translate="'label_level'"></p>
               <p class="text-gray-100 font-semibold">{{ item.level }}</p>
             </div>
             <div>
-              <p class="text-gray-500 mb-1">Weight</p>
-              <p class="text-gray-100 font-semibold">{{ item.pod }} pods</p>
+              <p class="text-gray-500 mb-1" v-translate="'label_weight'"></p>
+              <p class="text-gray-100 font-semibold">{{ item.pod }} <span v-translate="'label_pods'"></span></p>
             </div>
           </div>
         </div>

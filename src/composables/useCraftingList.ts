@@ -37,11 +37,12 @@ export function useCraftingList() {
   watch(craftingList, saveToStorage, { deep: true })
 
   function addItem(item: Item, quantity: number = 1) {
-    const existingIndex = craftingList.value.findIndex(entry => entry.item.id === item.id)
+    const existing = craftingList.value.find(entry => entry.item.id === item.id)
 
-    if (existingIndex !== -1) {
-      // Update quantity if item already exists
-      craftingList.value[existingIndex].quantity += quantity
+    if (existing) {
+      // Reset crafted flag and restore quantity if item was previously crafted
+      existing.crafted = false
+      existing.quantity += quantity
     } else {
       // Add new item
       craftingList.value.push({ item, quantity })
@@ -76,13 +77,18 @@ export function useCraftingList() {
     const entry = craftingList.value.find(entry => entry.item.id === itemId)
     if (entry) {
       if (entry.quantity <= 1) {
-        // Remove item if quantity reaches 0
-        removeItem(itemId)
+        // Mark as crafted instead of removing, so it stays greyed-out
+        entry.quantity = 0
+        entry.crafted = true
       } else {
         // Decrease quantity by 1
         entry.quantity -= 1
       }
     }
+  }
+
+  function clearCrafted() {
+    craftingList.value = craftingList.value.filter(entry => !entry.crafted)
   }
 
   return {
@@ -91,6 +97,7 @@ export function useCraftingList() {
     removeItem,
     updateQuantity,
     clearList,
+    clearCrafted,
     isInList,
     getQuantity,
     craftItem

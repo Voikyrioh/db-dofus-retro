@@ -3,14 +3,13 @@ import { ref, onMounted } from 'vue'
 import Header from '../molecules/Header.vue'
 import Footer from '../molecules/Footer.vue'
 import CraftingListItemWithIngredients from '../molecules/CraftingListItemWithIngredients.vue'
-import MissingMaterialsQuickList from '../molecules/MissingMaterialsQuickList.vue'
 import AllMaterialsInventoryList from '../molecules/AllMaterialsInventoryList.vue'
 import { useCraftingList } from '../../composables/useCraftingList'
 import { useInventory } from '../../composables/useInventory'
 import { useMaterialCalculator } from '../../composables/useMaterialCalculator'
 import { getCraftDetails } from '../../services/itemService'
 
-const { craftingList, removeItem: removeFromList, craftItem } = useCraftingList()
+const { craftingList, removeItem: removeFromList, craftItem, clearCrafted } = useCraftingList()
 const { inventory, setQuantity, deductMaterials } = useInventory()
 const { requirements, missingMaterials, loading, error, calculateRequirements } = useMaterialCalculator(craftingList, inventory)
 
@@ -30,13 +29,6 @@ function handleUpdateQuantity(itemId: number, quantity: number) {
   const requirement = requirements.value.find(req => req.item.id === itemId)
   if (requirement) {
     setQuantity(requirement.item, quantity)
-  }
-}
-
-function handleAddOne(itemId: number) {
-  const requirement = requirements.value.find(req => req.item.id === itemId)
-  if (requirement) {
-    setQuantity(requirement.item, requirement.owned + 1)
   }
 }
 
@@ -90,9 +82,18 @@ async function handleCraft(itemId: number) {
           <!-- LEFT COLUMN - Crafting List -->
           <div>
             <div class="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-6">
-              <h3 class="text-xl font-bold text-blue-400 mb-4">Items to Craft</h3>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-blue-400">Items to Craft</h3>
+                <button
+                  v-if="craftingList.some(e => e.crafted)"
+                  @click="clearCrafted"
+                  class="px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 rounded transition-colors"
+                >
+                  Clear crafted
+                </button>
+              </div>
 
-              <div v-if="craftingList.length === 0" class="text-center py-8">
+              <div v-if="!craftingList.some(e => !e.crafted) && craftingList.length === 0" class="text-center py-8">
                 <p class="text-gray-400 mb-4">Your crafting list is empty</p>
                 <button
                   @click="navigateToSearch"
@@ -102,9 +103,27 @@ async function handleCraft(itemId: number) {
                 </button>
               </div>
 
+              <div v-else-if="!craftingList.some(e => !e.crafted) && craftingList.length > 0" class="text-center py-8">
+                <p class="text-green-400 font-semibold mb-2">✓ All items crafted!</p>
+                <div class="flex justify-center gap-3">
+                  <button
+                    @click="clearCrafted"
+                    class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"
+                  >
+                    Clear list
+                  </button>
+                  <button
+                    @click="navigateToSearch"
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
+                  >
+                    Search more items
+                  </button>
+                </div>
+              </div>
+
               <div v-else class="space-y-4">
                 <CraftingListItemWithIngredients
-                  v-for="entry in craftingList"
+                  v-for="entry in [...craftingList].sort((a, b) => (a.crafted ? 1 : 0) - (b.crafted ? 1 : 0))"
                   :key="entry.item.id"
                   :entry="entry"
                   :inventory="inventory"
@@ -117,15 +136,10 @@ async function handleCraft(itemId: number) {
 
           <!-- RIGHT COLUMN - Materials Section -->
           <div class="space-y-6">
-            <!-- Missing Materials (Priority) -->
-            <MissingMaterialsQuickList
-              :missing-materials="missingMaterials"
-              @add-one="handleAddOne"
-            />
-
             <!-- All Materials with Inventory Input -->
             <AllMaterialsInventoryList
               :requirements="requirements"
+              :missing-count="missingMaterials.length"
               @update-quantity="handleUpdateQuantity"
             />
 

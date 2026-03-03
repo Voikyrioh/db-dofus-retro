@@ -12,9 +12,7 @@ const selectedItem = ref<Item | null>(null)
 // Simple page navigation without router
 function setPage(page: 'home' | 'items' | 'crafting-list') {
   currentPage.value = page
-  if (page !== 'item-details') {
-    selectedItem.value = null
-  }
+  selectedItem.value = null
 }
 
 function navigateToItemDetails(item: Item) {

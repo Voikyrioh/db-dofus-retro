@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { MaterialRequirement } from '../../entities/MaterialRequirement'
+import ItemSprite from './ItemSprite.vue'
 
 const props = defineProps<{
   requirement: MaterialRequirement
@@ -18,7 +19,8 @@ function handleInput(event: Event) {
 </script>
 
 <template>
-  <div class="flex items-center gap-3 py-2 border-b border-gray-700 last:border-0">
+  <div class="flex items-center gap-3 py-2 border-b border-gray-700 last:border-0" :class="requirement.missing === 0 ? 'opacity-40' : ''">
+    <ItemSprite :category="requirement.item.sprite?.category" :sprite="requirement.item.sprite?.sprite" :size="32" />
     <div class="flex-1 min-w-0">
       <p class="text-sm text-gray-100 truncate">{{ requirement.item.name }}</p>
       <p class="text-xs text-gray-500">Need: {{ requirement.needed }}</p>

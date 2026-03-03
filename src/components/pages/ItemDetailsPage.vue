@@ -4,6 +4,8 @@ import Header from '../molecules/Header.vue'
 import Footer from '../molecules/Footer.vue'
 import CraftDetails from '../molecules/CraftDetails.vue'
 import QuantityInput from '../atoms/QuantityInput.vue'
+import ItemSprite from '../atoms/ItemSprite.vue'
+import ItemStatsList from '../molecules/ItemStatsList.vue'
 import { getCraftDetails } from '../../services/itemService'
 import { useCraftingList } from '../../composables/useCraftingList'
 import type { Item } from '../../entities/Item'
@@ -73,7 +75,14 @@ onMounted(() => {
         <!-- Item details -->
         <div class="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-6">
           <div class="flex items-start justify-between mb-4">
-            <h2 class="text-3xl font-bold text-blue-400">{{ item.name }}</h2>
+            <div class="flex items-start gap-4">
+              <ItemSprite
+                :category="item.sprite?.category"
+                :sprite="item.sprite?.sprite"
+                :size="80"
+              />
+              <h2 class="text-3xl font-bold text-blue-400">{{ item.name }}</h2>
+            </div>
 
             <!-- Add to Crafting List -->
             <div class="flex items-center gap-3">
@@ -125,6 +134,9 @@ onMounted(() => {
             </div>
           </div>
         </div>
+
+        <!-- Item statistics -->
+        <ItemStatsList :stats="item.stats" class="mb-6" />
 
         <!-- Craft details -->
         <CraftDetails :craft="craft" :loading="loading" :error="error" />

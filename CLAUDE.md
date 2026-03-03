@@ -115,6 +115,7 @@ Each player in a team gets an individual drop roll for each item, unless the pro
 - `src/assets/` - Static assets
 - `src/style.css` - Global styles
 - `public/` - Public static assets served as-is
+  - `public/assets/items/` - Item sprite SVG files organized by `typeId` and `gfxId`
 
 ### TypeScript Configuration
 The project uses a split TypeScript configuration:
@@ -247,6 +248,38 @@ export function useCraftingList() {
 **LocalStorage Keys:**
 - `dofus-crafting-list` - User's crafting list (items to craft with quantities)
 - `dofus-inventory` - User's inventory (owned items with quantities)
+
+### Item Assets Structure
+Item visual assets are stored as SVG sprite files in the `public/assets/items/` directory with the following structure:
+
+```
+public/assets/items/<typeId>/<gfxId>/<sprite>.svg
+```
+
+**Path Components:**
+- `typeId`: The item type identifier (matches `Item.type` field)
+- `gfxId`: The graphics identifier unique to each item visual
+- `<sprite>.svg`: Individual SVG files representing different sprite components
+
+**Example:**
+```
+public/assets/items/2/1/1.svg
+public/assets/items/50/1/1.svg
+public/assets/items/50/1/3.svg
+public/assets/items/50/1/5.svg
+```
+
+**Usage:**
+To display an item's sprite, construct the path using the item's `typeId` and `gfxId`:
+```typescript
+const spritePath = `/assets/items/${item.typeId}/${item.gfxId}/`
+// Then load all SVG files from this directory
+```
+
+**Notes:**
+- Multiple SVG files in a gfxId folder represent multi-part sprites
+- All SVG files are at the root level of each gfxId folder (flat structure)
+- File names are numeric (1.svg, 3.svg, 5.svg, etc.)
 
 ## API Endpoints
 

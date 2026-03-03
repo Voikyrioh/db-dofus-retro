@@ -37,11 +37,11 @@ export function useInventory() {
   watch(inventory, saveToStorage, { deep: true })
 
   function addItem(item: Item, quantity: number = 1) {
-    const existingIndex = inventory.value.findIndex(entry => entry.item.id === item.id)
+    const existing = inventory.value.find(entry => entry.item.id === item.id)
 
-    if (existingIndex !== -1) {
+    if (existing) {
       // Update quantity if item already exists
-      inventory.value[existingIndex].quantity += quantity
+      existing.quantity += quantity
     } else {
       // Add new item
       inventory.value.push({ item, quantity })
@@ -70,9 +70,9 @@ export function useInventory() {
       return
     }
 
-    const existingIndex = inventory.value.findIndex(entry => entry.item.id === item.id)
-    if (existingIndex !== -1) {
-      inventory.value[existingIndex].quantity = quantity
+    const existing = inventory.value.find(entry => entry.item.id === item.id)
+    if (existing) {
+      existing.quantity = quantity
     } else {
       inventory.value.push({ item, quantity })
     }

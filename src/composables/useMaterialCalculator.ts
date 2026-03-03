@@ -11,14 +11,35 @@ export function useMaterialCalculator(
 ) {
   const loading = ref(false)
   const error = ref<string | null>(null)
-  const requirements = ref<MaterialRequirement[]>([])
+
+  // Aggregated totals from craft recipes — rebuilt only when the crafting list changes
+  const materialNeeds = ref<Map<number, { item: Item, quantity: number }>>(new Map())
+
+  // Requirements are computed synchronously from materialNeeds + current inventory,
+  // so updating owned quantities is instant without any API call
+  const requirements = computed<MaterialRequirement[]>(() => {
+    const inventoryMap = new Map(inventoryRef.value.map(inv => [inv.item.id, inv.quantity]))
+
+    const result = Array.from(materialNeeds.value.values()).map(material => {
+      const owned = inventoryMap.get(material.item.id) ?? 0
+      const missing = Math.max(0, material.quantity - owned)
+      return { item: material.item, needed: material.quantity, owned, missing }
+    })
+
+    // Sort: incomplete materials first (by level), then complete materials (by level)
+    return result.sort((a, b) => {
+      const aMissing = a.missing > 0 ? 0 : 1
+      const bMissing = b.missing > 0 ? 0 : 1
+      if (aMissing !== bMissing) return aMissing - bMissing
+      return a.item.level - b.item.level
+    })
+  })
 
   async function calculateRequirements() {
     const craftingList = craftingListRef.value
-    const inventory = inventoryRef.value
 
     if (craftingList.length === 0) {
-      requirements.value = []
+      materialNeeds.value = new Map()
       return
     }
 
@@ -26,73 +47,42 @@ export function useMaterialCalculator(
     error.value = null
 
     try {
-      // Map to store aggregated material needs { itemId: { item: Item, quantity: number } }
-      const materialMap = new Map<number, { item: Item, quantity: number }>()
+      const newMap = new Map<number, { item: Item, quantity: number }>()
 
-      // Fetch craft details for all items in the crafting list
       for (const listItem of craftingList) {
+        if (listItem.crafted) continue
+
         const craft = await getCraftDetails(listItem.item.id)
 
         if (craft && craft.length > 0) {
-          // Aggregate ingredients
           for (const ingredient of craft) {
             const totalNeeded = ingredient.quantity * listItem.quantity
-
-            if (materialMap.has(ingredient.item.id)) {
-              const existing = materialMap.get(ingredient.item.id)!
+            const existing = newMap.get(ingredient.item.id)
+            if (existing) {
               existing.quantity += totalNeeded
             } else {
-              materialMap.set(ingredient.item.id, {
-                item: ingredient.item,
-                quantity: totalNeeded
-              })
+              newMap.set(ingredient.item.id, { item: ingredient.item, quantity: totalNeeded })
             }
           }
         }
       }
 
-      // Convert to MaterialRequirement array with owned/missing calculations
-      const inventoryMap = new Map(
-        inventory.map(inv => [inv.item.id, inv.quantity])
-      )
-
-      requirements.value = Array.from(materialMap.values()).map(material => {
-        const owned = inventoryMap.get(material.item.id) ?? 0
-        const missing = Math.max(0, material.quantity - owned)
-
-        return {
-          item: material.item,
-          needed: material.quantity,
-          owned,
-          missing
-        }
-      })
-
-      // Sort by missing quantity (descending) to show what's most needed first
-      requirements.value.sort((a, b) => b.missing - a.missing)
-
+      materialNeeds.value = newMap
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to calculate material requirements'
-      requirements.value = []
+      materialNeeds.value = new Map()
     } finally {
       loading.value = false
     }
   }
 
-  // Auto-recalculate when crafting list or inventory changes
-  watch([craftingListRef, inventoryRef], () => {
+  // Only re-fetch craft details when the crafting list changes
+  watch(craftingListRef, () => {
     calculateRequirements()
   }, { deep: true })
 
-  // Computed property to get only missing materials
-  const missingMaterials = computed(() =>
-    requirements.value.filter(req => req.missing > 0)
-  )
-
-  // Computed property to get materials that are fully owned
-  const completeMaterials = computed(() =>
-    requirements.value.filter(req => req.missing === 0)
-  )
+  const missingMaterials = computed(() => requirements.value.filter(req => req.missing > 0))
+  const completeMaterials = computed(() => requirements.value.filter(req => req.missing === 0))
 
   return {
     requirements,

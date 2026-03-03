@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ItemSprite from './ItemSprite.vue'
 import type { CraftIngredient } from '../../entities/Craft'
 
 defineProps<{
@@ -11,6 +12,11 @@ defineProps<{
     <div class="flex-shrink-0 bg-blue-900/30 text-blue-400 font-bold rounded-full w-10 h-10 flex items-center justify-center">
       {{ ingredient.quantity }}×
     </div>
+    <ItemSprite
+      :category="ingredient.item.sprite?.category"
+      :sprite="ingredient.item.sprite?.sprite"
+      :size="32"
+    />
     <div class="flex-1">
       <h4 class="font-semibold text-gray-100">{{ ingredient.item.name }}</h4>
       <div class="text-xs text-gray-400 mt-1">

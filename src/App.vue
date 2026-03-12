@@ -7,12 +7,19 @@ import CraftingListPage from './components/pages/CraftingListPage.vue'
 import LoginPage from './components/pages/LoginPage.vue'
 import RegisterPage from './components/pages/RegisterPage.vue'
 import type { Item } from './entities/Item'
+import { useAuth } from './composables/useAuth'
 
+const { isLoggedIn } = useAuth()
 const currentPage = ref<'home' | 'items' | 'item-details' | 'crafting-list' | 'login' | 'register'>('home')
 const selectedItem = ref<Item | null>(null)
 
 // Simple page navigation without router
 function setPage(page: 'home' | 'items' | 'crafting-list' | 'login' | 'register') {
+  if (page === 'crafting-list' && !isLoggedIn.value) {
+    currentPage.value = 'login'
+    selectedItem.value = null
+    return
+  }
   currentPage.value = page
   selectedItem.value = null
 }

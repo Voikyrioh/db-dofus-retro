@@ -5,7 +5,7 @@ import Footer from '../molecules/Footer.vue'
 import { login } from '../../services/authService'
 import { useAuth } from '../../composables/useAuth'
 
-const { setTokenFromCookie } = useAuth()
+const { setTokenFromCookie, setUser } = useAuth()
 
 function navigate(page: string) {
   ;(window as any).navigateTo?.(page)
@@ -20,7 +20,8 @@ async function handleSubmit() {
   error.value = null
   loading.value = true
   try {
-    await login({ username: username.value, password: password.value })
+    const authUser = await login({ username: username.value, password: password.value })
+    setUser(authUser)
     setTokenFromCookie()
     navigate('home')
   } catch (e) {

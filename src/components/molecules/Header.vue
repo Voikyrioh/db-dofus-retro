@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAuth } from '../../composables/useAuth'
 
-const { isLoggedIn, logout } = useAuth()
+const { isLoggedIn, user, logout } = useAuth()
 
 function navigate(page: 'home' | 'items' | 'crafting-list' | 'login' | 'register') {
   ;(window as any).navigateTo?.(page)
@@ -21,15 +21,24 @@ function handleLogout() {
         <nav class="flex gap-6 items-center">
           <a @click.prevent="navigate('home')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_home'"></a>
           <a @click.prevent="navigate('items')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_items'"></a>
-          <a @click.prevent="navigate('crafting-list')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_crafting_list'"></a>
-          <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors" v-translate="'nav_monsters'"></a>
-          <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors" v-translate="'nav_recipes'"></a>
+          <a v-if="isLoggedIn" @click.prevent="navigate('crafting-list')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_crafting_list'"></a>
           <template v-if="!isLoggedIn">
             <a @click.prevent="navigate('login')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_login'"></a>
-            <a @click.prevent="navigate('register')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_register'"></a>
           </template>
-          <a v-else @click.prevent="handleLogout" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_logout'"></a>
-          <SelectLang />
+          <template v-else>
+            <div class="flex items-center gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm cursor-default select-none"
+                :title="user?.username"
+              >
+                {{ user?.username?.charAt(0).toUpperCase() }}
+              </div>
+              <a @click.prevent="handleLogout" href="#" class="text-gray-400 hover:text-red-400 text-sm transition-colors" v-translate="'nav_logout'"></a>
+            </div>
+          </template>
+          <div class="border border-gray-600 rounded px-2 py-0.5 ml-2">
+            <SelectLang />
+          </div>
         </nav>
       </div>
     </div>
@@ -37,4 +46,15 @@ function handleLogout() {
 </template>
 
 <style scoped>
+:deep(select) {
+  background: transparent;
+  color: rgb(209 213 219);
+  font-size: 0.75rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+:deep(option) {
+  background: rgb(31 41 55);
+}
 </style>

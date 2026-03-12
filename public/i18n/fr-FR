@@ -4,6 +4,9 @@
   "nav_crafting_list": "Liste d'artisanat",
   "nav_monsters": "Monstres",
   "nav_recipes": "Recettes",
+  "nav_login": "Connexion",
+  "nav_register": "Inscription",
+  "nav_logout": "Déconnexion",
   "site_title": "Dofus Retro DB",
   "footer_rights": "Dofus Retro DB. Tous droits réservés.",
   "footer_about": "À propos",
@@ -115,5 +118,21 @@
   "stat_PROS": "Prospection",
   "stat_SAGE": "Sagesse",
   "stat_SOIN": "Soins",
-  "stat_VITA": "Vitalité"
+  "stat_VITA": "Vitalité",
+
+  "login_title": "Connexion",
+  "login_username_label": "Nom d'utilisateur",
+  "login_password_label": "Mot de passe",
+  "login_submit_button": "Se connecter",
+  "login_no_account": "Pas encore de compte ?",
+  "login_register_link": "S'inscrire",
+
+  "register_title": "Inscription",
+  "register_username_label": "Nom d'utilisateur",
+  "register_email_label": "Email",
+  "register_password_label": "Mot de passe",
+  "register_confirm_label": "Confirmer le mot de passe",
+  "register_submit_button": "S'inscrire",
+  "register_have_account": "Vous avez déjà un compte ?",
+  "register_login_link": "Se connecter"
 }

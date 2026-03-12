@@ -1,6 +1,15 @@
 <script setup lang="ts">
-function navigate(page: 'home' | 'items' | 'crafting-list') {
+import { useAuth } from '../../composables/useAuth'
+
+const { isLoggedIn, logout } = useAuth()
+
+function navigate(page: 'home' | 'items' | 'crafting-list' | 'login' | 'register') {
   ;(window as any).navigateTo?.(page)
+}
+
+function handleLogout() {
+  logout()
+  navigate('home')
 }
 </script>
 
@@ -15,6 +24,11 @@ function navigate(page: 'home' | 'items' | 'crafting-list') {
           <a @click.prevent="navigate('crafting-list')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_crafting_list'"></a>
           <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors" v-translate="'nav_monsters'"></a>
           <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors" v-translate="'nav_recipes'"></a>
+          <template v-if="!isLoggedIn">
+            <a @click.prevent="navigate('login')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_login'"></a>
+            <a @click.prevent="navigate('register')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_register'"></a>
+          </template>
+          <a v-else @click.prevent="handleLogout" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_logout'"></a>
           <SelectLang />
         </nav>
       </div>

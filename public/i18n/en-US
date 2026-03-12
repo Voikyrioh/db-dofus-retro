@@ -4,6 +4,9 @@
   "nav_crafting_list": "Crafting List",
   "nav_monsters": "Monsters",
   "nav_recipes": "Recipes",
+  "nav_login": "Login",
+  "nav_register": "Register",
+  "nav_logout": "Logout",
   "site_title": "Dofus Retro DB",
   "footer_rights": "Dofus Retro DB. All rights reserved.",
   "footer_about": "About",
@@ -115,5 +118,21 @@
   "stat_PROS": "Prospecting",
   "stat_SAGE": "Wisdom",
   "stat_SOIN": "Heals",
-  "stat_VITA": "Vitality"
+  "stat_VITA": "Vitality",
+
+  "login_title": "Login",
+  "login_username_label": "Username",
+  "login_password_label": "Password",
+  "login_submit_button": "Login",
+  "login_no_account": "Don't have an account?",
+  "login_register_link": "Register",
+
+  "register_title": "Register",
+  "register_username_label": "Username",
+  "register_email_label": "Email",
+  "register_password_label": "Password",
+  "register_confirm_label": "Confirm Password",
+  "register_submit_button": "Register",
+  "register_have_account": "Already have an account?",
+  "register_login_link": "Login"
 }

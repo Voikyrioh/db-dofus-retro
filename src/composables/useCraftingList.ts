@@ -1,6 +1,7 @@
 import { ref, watch } from 'vue'
 import type { CraftingListItem } from '../entities/CraftingListItem'
 import type { Item } from '../entities/Item'
+import type { CraftIngredient } from '../entities/Craft'
 
 const STORAGE_KEY = 'dofus-crafting-list'
 
@@ -36,16 +37,17 @@ export function useCraftingList() {
   // Watch for changes and auto-save
   watch(craftingList, saveToStorage, { deep: true })
 
-  function addItem(item: Item, quantity: number = 1) {
+  function addItem(item: Item, quantity: number = 1, recipe?: CraftIngredient[]) {
     const existing = craftingList.value.find(entry => entry.item.id === item.id)
 
     if (existing) {
       // Reset crafted flag and restore quantity if item was previously crafted
       existing.crafted = false
       existing.quantity += quantity
+      if (recipe) existing.recipe = recipe
     } else {
       // Add new item
-      craftingList.value.push({ item, quantity })
+      craftingList.value.push({ item, quantity, recipe })
     }
   }
 

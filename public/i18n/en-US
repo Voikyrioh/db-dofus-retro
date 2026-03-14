@@ -1,6 +1,7 @@
 {
   "nav_home": "Home",
   "nav_items": "Items",
+  "nav_crafts": "Crafts",
   "nav_crafting_list": "Crafting List",
   "nav_monsters": "Monsters",
   "nav_recipes": "Recipes",
@@ -19,6 +20,10 @@
   "items_page_subtitle": "Search for items in the Dofus Retro database",
   "crafting_page_title": "Crafting List",
   "crafting_page_subtitle": "Manage your crafting goals and track required materials",
+  "crafts_page_title": "Craft Browser",
+  "crafts_page_subtitle": "Browse all craftable items",
+  "loading_crafts": "Loading crafts...",
+  "no_more_crafts": "All crafts loaded",
 
   "search_button": "Search",
   "searching_label": "Searching...",

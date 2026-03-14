@@ -1,6 +1,7 @@
 {
   "nav_home": "Accueil",
   "nav_items": "Objets",
+  "nav_crafts": "Recettes",
   "nav_crafting_list": "Liste de fabrication",
   "nav_monsters": "Monstres",
   "nav_recipes": "Recettes",
@@ -19,6 +20,10 @@
   "items_page_subtitle": "Recherchez des objets dans la base de données Dofus Retro",
   "crafting_page_title": "Liste de fabrication",
   "crafting_page_subtitle": "Gérez vos objectifs de fabrication et suivez les ressources requises",
+  "crafts_page_title": "Catalogue de recettes",
+  "crafts_page_subtitle": "Parcourez tous les objets fabricables",
+  "loading_crafts": "Chargement des recettes...",
+  "no_more_crafts": "Toutes les recettes ont été chargées",
 
   "search_button": "Rechercher",
   "searching_label": "Recherche en cours...",

@@ -52,7 +52,9 @@ export function useMaterialCalculator(
       for (const listItem of craftingList) {
         if (listItem.crafted) continue
 
-        const craft = await getCraftDetails(listItem.item.id)
+        const craft = (listItem.recipe && listItem.recipe.length > 0)
+          ? listItem.recipe
+          : await getCraftDetails(listItem.item.id)
 
         if (craft && craft.length > 0) {
           for (const ingredient of craft) {

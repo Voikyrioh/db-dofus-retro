@@ -34,3 +34,7 @@ export async function login(credentials: AuthCredentials): Promise<AuthUser> {
   if (!response.ok) return parseAuthError(response)
   return response.json()
 }
+
+export async function logoutRequest(): Promise<void> {
+  await fetch(`${API_BASE_URL}/auth/logout`, { credentials: 'include' })
+}

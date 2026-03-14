@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
 import type { AuthUser } from '../entities/AuthUser'
+import { logoutRequest } from '../services/authService'
 
 const STORAGE_KEY = 'dofus-auth-token'
 const USER_STORAGE_KEY = 'dofus-auth-user'
@@ -29,7 +30,8 @@ export function useAuth() {
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(authUser))
   }
 
-  function logout() {
+  async function logout() {
+    await logoutRequest()
     token.value = null
     user.value = null
     localStorage.removeItem(STORAGE_KEY)

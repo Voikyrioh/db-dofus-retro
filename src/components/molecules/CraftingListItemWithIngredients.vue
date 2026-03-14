@@ -30,6 +30,10 @@ const canCraft = computed(() => {
 })
 
 onMounted(async () => {
+  if (props.entry.recipe && props.entry.recipe.length > 0) {
+    craft.value = props.entry.recipe
+    return
+  }
   loading.value = true
   try {
     craft.value = await getCraftDetails(props.entry.item.id)

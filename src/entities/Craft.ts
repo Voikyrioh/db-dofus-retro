@@ -6,3 +6,8 @@ export interface CraftIngredient {
 }
 
 export type Craft = CraftIngredient[]
+
+export interface CraftListing {
+  item: Item
+  recipe: CraftIngredient[]
+}

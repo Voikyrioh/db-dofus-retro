@@ -3,12 +3,12 @@ import { useAuth } from '../../composables/useAuth'
 
 const { isLoggedIn, user, logout } = useAuth()
 
-function navigate(page: 'home' | 'items' | 'crafting-list' | 'login' | 'register') {
+function navigate(page: 'home' | 'items' | 'crafting-list' | 'crafts' | 'login' | 'register') {
   ;(window as any).navigateTo?.(page)
 }
 
-function handleLogout() {
-  logout()
+async function handleLogout() {
+  await logout()
   navigate('home')
 }
 </script>
@@ -21,6 +21,7 @@ function handleLogout() {
         <nav class="flex gap-6 items-center">
           <a @click.prevent="navigate('home')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_home'"></a>
           <a @click.prevent="navigate('items')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_items'"></a>
+          <a @click.prevent="navigate('crafts')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_crafts'"></a>
           <a v-if="isLoggedIn" @click.prevent="navigate('crafting-list')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_crafting_list'"></a>
           <template v-if="!isLoggedIn">
             <a @click.prevent="navigate('login')" href="#" class="text-gray-300 hover:text-blue-400 transition-colors cursor-pointer" v-translate="'nav_login'"></a>

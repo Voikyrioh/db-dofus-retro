@@ -93,7 +93,6 @@
   .btn-primary {
     background: var(--color-bg-nav);
     color: var(--color-text-on-dark);
-    font-family: 'Nunito', sans-serif;
     font-weight: 700;
     font-size: 0.85rem;
     padding: 0.4rem 0.9rem;
@@ -111,11 +110,14 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
+  .btn-primary:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
 
   .btn-secondary {
     background: transparent;
     color: var(--color-text-secondary);
-    font-family: 'Nunito', sans-serif;
     font-weight: 700;
     font-size: 0.85rem;
     padding: 0.4rem 0.9rem;
@@ -129,11 +131,18 @@
     border-color: var(--color-accent);
     color: var(--color-accent);
   }
+  .btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-secondary:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
 
   .btn-danger {
     background: transparent;
     color: var(--color-error);
-    font-family: 'Nunito', sans-serif;
     font-weight: 700;
     font-size: 0.85rem;
     padding: 0.4rem 0.9rem;
@@ -145,6 +154,14 @@
   .btn-danger:hover {
     background: var(--color-error-bg);
   }
+  .btn-danger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-danger:focus-visible {
+    outline: 2px solid var(--color-error);
+    outline-offset: 2px;
+  }
 
   /* ── Inputs ────────────────────────────── */
   .input-field {
@@ -153,7 +170,6 @@
     border: 1px solid var(--color-border-accent);
     border-radius: 8px;
     padding: 0.5rem 0.75rem;
-    font-family: 'Nunito', sans-serif;
     font-size: 0.875rem;
     font-weight: 400;
     width: 100%;
@@ -165,6 +181,7 @@
   }
   .input-field:focus {
     border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px rgba(212, 168, 92, 0.20);
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 20%, transparent);
   }
 
@@ -174,7 +191,6 @@
     border: 1px solid var(--color-border-accent);
     border-radius: 8px;
     padding: 0.35rem 0.75rem;
-    font-family: 'Nunito', sans-serif;
     font-size: 0.875rem;
     outline: none;
     transition: border-color 0.15s;
@@ -184,5 +200,10 @@
   }
   .input-search:focus {
     border-color: var(--color-accent);
+  }
+  .input-search:focus-visible {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px rgba(212, 168, 92, 0.20);
   }
 }

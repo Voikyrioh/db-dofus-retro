@@ -11,7 +11,9 @@ const props = defineProps<{
 
 const iconError = ref(false)
 
-const iconPath = computed(() => `/assets/icons/sprites/${props.statKey}.svg`)
+// Normalize key for icon lookup: R_PVP_EAU → R_EAU, RP_PVP_FEU → RP_FEU, etc.
+const iconKey = computed(() => props.statKey.replace(/_PVP_/, '_'))
+const iconPath = computed(() => `/assets/icons/sprites/${iconKey.value}.svg`)
 
 const statTranslationKey = computed(() => `stat_${props.statKey}`)
 
@@ -19,7 +21,8 @@ const statValue = computed(() => {
   if (props.min === props.max) {
     return `${props.min}`
   }
-  return `${props.min} - ${props.max}`
+  // Use ~ separator to avoid ambiguity with negative numbers (e.g. "-6 ~ -7" not "-6 - -7")
+  return `${props.min} ~ ${props.max}`
 })
 </script>
 

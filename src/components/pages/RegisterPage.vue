@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import Header from '../molecules/Header.vue'
 import Footer from '../molecules/Footer.vue'
+import OrnateCorners from '../atoms/OrnateCorners.vue'
 import { register } from '../../services/authService'
 
 const username = ref('')
@@ -30,70 +31,72 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="flex flex-col min-h-screen">
+  <div class="page-wrapper">
     <Header />
 
-    <main class="flex-1 container mx-auto px-4 py-8">
-      <div class="max-w-md mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-8" v-translate="'register_title'"></h2>
+    <main class="auth-main">
+      <div class="auth-card card-ornate">
+        <OrnateCorners />
 
-        <form @submit.prevent="handleSubmit" class="bg-gray-800 rounded-lg p-6 flex flex-col gap-4">
-          <div class="flex flex-col gap-1">
-            <label class="text-gray-300 text-sm" v-translate="'register_username_label'"></label>
+        <h2 class="auth-title" v-translate="'register_title'"></h2>
+
+        <form @submit.prevent="handleSubmit" class="auth-form">
+          <div class="field">
+            <label class="field-label" v-translate="'register_username_label'"></label>
             <input
               v-model="username"
               type="text"
               required
-              class="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-400"
+              class="input-field"
             />
           </div>
 
-          <div class="flex flex-col gap-1">
-            <label class="text-gray-300 text-sm" v-translate="'register_email_label'"></label>
+          <div class="field">
+            <label class="field-label" v-translate="'register_email_label'"></label>
             <input
               v-model="email"
               type="email"
               required
-              class="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-400"
+              class="input-field"
             />
           </div>
 
-          <div class="flex flex-col gap-1">
-            <label class="text-gray-300 text-sm" v-translate="'register_password_label'"></label>
+          <div class="field">
+            <label class="field-label" v-translate="'register_password_label'"></label>
             <input
               v-model="password"
               type="password"
               required
-              class="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-400"
+              class="input-field"
             />
           </div>
 
-          <div class="flex flex-col gap-1">
-            <label class="text-gray-300 text-sm" v-translate="'register_confirm_label'"></label>
+          <div class="field">
+            <label class="field-label" v-translate="'register_confirm_label'"></label>
             <input
               v-model="confirm"
               type="password"
               required
-              class="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-400"
+              class="input-field"
             />
           </div>
 
-          <p v-if="error" class="text-red-400 text-sm">{{ error }}</p>
+          <p v-if="error" class="form-error">{{ error }}</p>
 
           <button
             type="submit"
             :disabled="loading"
-            class="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold py-2 px-4 rounded transition-colors"
+            class="btn-primary submit-btn"
             v-translate="'register_submit_button'"
           ></button>
         </form>
 
-        <p class="text-center mt-4 text-gray-400">
+        <p class="auth-footer-text">
           <span v-translate="'register_have_account'"></span>
           <a
             href="#"
             @click.prevent="navigate('login')"
-            class="text-blue-400 hover:text-blue-300 ml-1"
+            class="auth-link"
             v-translate="'register_login_link'"
           ></a>
         </p>
@@ -105,4 +108,81 @@ async function handleSubmit() {
 </template>
 
 <style scoped>
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.auth-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+  background: linear-gradient(160deg, var(--color-bg-nav-top) 0%, var(--color-bg-nav) 100%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem 2rem 1.5rem;
+}
+
+.auth-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-accent);
+  text-align: center;
+  margin: 0 0 1.5rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.form-error {
+  color: var(--color-error);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  margin-top: 0.25rem;
+}
+
+.auth-footer-text {
+  text-align: center;
+  margin: 1.25rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.auth-link {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 0.25rem;
+}
+
+.auth-link:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
 </style>

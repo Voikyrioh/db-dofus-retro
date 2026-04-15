@@ -5,6 +5,7 @@ import type { Craft } from '../../entities/Craft'
 import type { InventoryItem } from '../../entities/InventoryItem'
 import { getCraftDetails } from '../../services/itemService'
 import ItemSprite from '../atoms/ItemSprite.vue'
+import SkeletonBlock from '../atoms/SkeletonBlock.vue'
 
 const props = defineProps<{
   entry: CraftingListItem
@@ -77,7 +78,10 @@ onMounted(async () => {
     </div>
 
     <template v-if="!entry.crafted">
-      <div v-if="loading" class="craft-entry-status" v-translate="'loading_ingredients'"></div>
+      <div v-if="loading" class="ingredient-skeleton">
+        <SkeletonBlock height="0.7rem" width="80%" />
+        <SkeletonBlock height="0.7rem" width="60%" />
+      </div>
       <div v-else-if="!craft || craft.length === 0" class="craft-entry-status" v-translate="'no_craft_available'"></div>
       <div v-else class="craft-ingredients">
         <p class="craft-ingredients-label" v-translate="'ingredients_label'"></p>
@@ -223,5 +227,12 @@ onMounted(async () => {
   width: 100%;
   margin-top: 0.75rem;
   padding: 0.5rem;
+}
+
+.ingredient-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
 }
 </style>

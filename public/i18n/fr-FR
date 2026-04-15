@@ -160,5 +160,8 @@
   "register_confirm_label": "Confirmer le mot de passe",
   "register_submit_button": "S'inscrire",
   "register_have_account": "Vous avez déjà un compte ?",
-  "register_login_link": "Se connecter"
+  "register_login_link": "Se connecter",
+  "register_success_title": "Compte créé !",
+  "register_success_message": "Votre compte a bien été créé. Vous pouvez maintenant vous connecter.",
+  "register_success_cta": "Se connecter"
 }

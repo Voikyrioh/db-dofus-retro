@@ -11,6 +11,7 @@ const password = ref('')
 const confirm = ref('')
 const error = ref<string | null>(null)
 const loading = ref(false)
+const registered = ref(false)
 
 function navigate(page: string) {
   ;(window as any).navigateTo?.(page)
@@ -21,7 +22,7 @@ async function handleSubmit() {
   loading.value = true
   try {
     await register({ username: username.value, email: email.value, password: password.value, confirm: confirm.value })
-    navigate('login')
+    registered.value = true
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'Registration failed'
   } finally {
@@ -35,7 +36,21 @@ async function handleSubmit() {
     <Header />
 
     <main class="auth-main">
-      <div class="auth-card card-ornate">
+      <!-- Confirmation après inscription réussie -->
+      <div v-if="registered" class="auth-card card-ornate">
+        <OrnateCorners />
+        <div class="success-icon">✓</div>
+        <h2 class="auth-title success-title" v-translate="'register_success_title'"></h2>
+        <p class="success-message" v-translate="'register_success_message'"></p>
+        <button
+          class="btn-primary submit-btn"
+          @click="navigate('login')"
+          v-translate="'register_success_cta'"
+        ></button>
+      </div>
+
+      <!-- Formulaire d'inscription -->
+      <div v-else class="auth-card card-ornate">
         <OrnateCorners />
 
         <h2 class="auth-title" v-translate="'register_title'"></h2>
@@ -180,9 +195,26 @@ async function handleSubmit() {
   font-weight: 700;
   margin-left: 0.25rem;
 }
-
 .auth-link:hover {
   color: var(--color-accent-hover);
   text-decoration: underline;
+}
+
+/* Confirmation */
+.success-icon {
+  font-size: 3rem;
+  color: var(--color-success);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.success-title {
+  color: var(--color-success);
+  margin-bottom: 0.75rem;
+}
+.success-message {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  margin: 0 0 1.5rem;
 }
 </style>

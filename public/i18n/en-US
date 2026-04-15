@@ -160,5 +160,8 @@
   "register_confirm_label": "Confirm Password",
   "register_submit_button": "Register",
   "register_have_account": "Already have an account?",
-  "register_login_link": "Login"
+  "register_login_link": "Login",
+  "register_success_title": "Account created!",
+  "register_success_message": "Your account has been successfully created. You can now log in.",
+  "register_success_cta": "Log in"
 }

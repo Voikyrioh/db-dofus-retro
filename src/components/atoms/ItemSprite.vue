@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import ItemSpritePlaceholder from './ItemSpritePlaceholder.vue'
 
 const props = defineProps<{
@@ -124,9 +124,18 @@ async function loadSprites() {
   }
 }
 
-onMounted(() => {
-  loadSprites()
-})
+watch(
+  () => [props.category, props.sprite],
+  () => {
+    spriteSvgs.value = []
+    loading.value = true
+    error.value = false
+    maxWidth.value = 0
+    maxHeight.value = 0
+    loadSprites()
+  },
+  { immediate: true }
+)
 </script>
 
 <template>

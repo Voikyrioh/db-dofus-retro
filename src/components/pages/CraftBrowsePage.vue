@@ -11,6 +11,7 @@ import ItemSprite from '../atoms/ItemSprite.vue'
 import ItemStatsList from '../molecules/ItemStatsList.vue'
 import { useCraftingList } from '../../composables/useCraftingList'
 import QuantityInput from '../atoms/QuantityInput.vue'
+import SkeletonBlock from '../atoms/SkeletonBlock.vue'
 
 const PAGE_SIZE = 10
 const entries = ref<CraftListing[]>([])
@@ -85,7 +86,18 @@ onUnmounted(() => observer?.disconnect())
           <h1 class="panel-title" v-translate="'crafts_page_title'"></h1>
           <p class="panel-sub" v-translate="'crafts_page_subtitle'"></p>
 
-          <ul class="crafts-list">
+          <!-- Skeleton liste pendant le chargement initial -->
+          <div v-if="isLoading && entries.length === 0" class="skeleton-list">
+            <div v-for="n in 7" :key="n" class="skeleton-row">
+              <SkeletonBlock width="28px" height="28px" />
+              <div class="skeleton-row-info">
+                <SkeletonBlock height="0.8rem" width="70%" />
+                <SkeletonBlock height="0.65rem" width="40%" />
+              </div>
+            </div>
+          </div>
+
+          <ul v-else class="crafts-list">
             <li
               v-for="entry in entries"
               :key="entry.item.id"
@@ -249,4 +261,26 @@ onUnmounted(() => observer?.disconnect())
   border-top: 1px dashed var(--color-border);
 }
 .added-confirmation { color: var(--color-success); font-weight: 700; font-size: 0.875rem; }
+
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  overflow: hidden;
+}
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-surface);
+}
+.skeleton-row-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
 </style>

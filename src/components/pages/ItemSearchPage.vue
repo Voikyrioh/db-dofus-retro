@@ -12,6 +12,7 @@ import ItemStatsList from '../molecules/ItemStatsList.vue'
 import CraftDetails from '../molecules/CraftDetails.vue'
 import { useCraftingList } from '../../composables/useCraftingList'
 import QuantityInput from '../atoms/QuantityInput.vue'
+import SkeletonBlock from '../atoms/SkeletonBlock.vue'
 
 const props = defineProps<{
   initialItem?: Item | null
@@ -188,7 +189,15 @@ onMounted(() => {
             </div>
 
             <ItemStatsList :stats="selectedItem.stats" />
-            <CraftDetails :craft="craft" :loading="craftLoading" :error="craftError" />
+
+            <!-- Skeleton recette pendant le chargement -->
+            <div v-if="craftLoading" class="craft-skeleton">
+              <SkeletonBlock height="1rem" width="40%" />
+              <SkeletonBlock height="0.75rem" />
+              <SkeletonBlock height="0.75rem" width="85%" />
+              <SkeletonBlock height="0.75rem" width="70%" />
+            </div>
+            <CraftDetails v-else :craft="craft" :loading="false" :error="craftError" />
 
             <div class="detail-actions">
               <QuantityInput v-model="craftQuantity" :min="1" :max="99" />
@@ -404,5 +413,16 @@ onMounted(() => {
   color: var(--color-success);
   font-weight: 700;
   font-size: 0.875rem;
+}
+
+.craft-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding: 1.25rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
 }
 </style>

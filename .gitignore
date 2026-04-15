@@ -26,3 +26,9 @@ dist-ssr
 # Uncompressed assets
 public/assets/items
 public/assets/icons
+
+# Git worktrees
+.worktrees/
+
+# Brainstorm sessions
+.superpowers/

@@ -19,7 +19,6 @@ const emit = defineEmits<{
 const craft = ref<Craft | null>(null)
 const loading = ref(false)
 
-// Check if item can be crafted
 const canCraft = computed(() => {
   if (!craft.value || craft.value.length === 0) return false
 
@@ -45,54 +44,55 @@ onMounted(async () => {
 
 <template>
   <div
-    class="border rounded-lg p-4 transition-opacity"
+    class="craft-entry"
     :class="[
-      entry.crafted ? 'bg-gray-800/50 border-gray-700 opacity-50' : 'bg-gray-800',
-      !entry.crafted && canCraft ? 'border-green-600' : !entry.crafted ? 'border-gray-700' : ''
+      entry.crafted ? 'craft-entry--crafted' : '',
+      !entry.crafted && canCraft ? 'craft-entry--ready' : ''
     ]"
   >
-    <div class="flex items-start justify-between mb-3">
-      <div class="flex items-start gap-3 flex-1">
+    <div class="craft-entry-header">
+      <div class="craft-entry-item">
         <ItemSprite :category="entry.item.sprite?.category" :sprite="entry.item.sprite?.sprite" :size="40" />
-        <div class="flex-1">
-        <h3 class="font-semibold" :class="entry.crafted ? 'text-gray-400 line-through' : 'text-gray-100'">{{ entry.item.name }}</h3>
-        <p class="text-xs text-gray-400 mt-1">
-          <span v-if="entry.crafted" v-translate="'crafted_label'"></span>
-          <span v-else><span v-translate="'quantity_label'"></span> {{ entry.quantity }}</span>
-          {{ ' • ' }}<span v-translate="'label_level'"></span> {{ entry.item.level }}
-        </p>
+        <div class="craft-entry-meta">
+          <h3 class="craft-entry-name" :class="entry.crafted ? 'craft-entry-name--crafted' : ''">
+            {{ entry.item.name }}
+          </h3>
+          <p class="craft-entry-sub">
+            <span v-if="entry.crafted" v-translate="'crafted_label'"></span>
+            <span v-else><span v-translate="'quantity_label'"></span> {{ entry.quantity }}</span>
+            {{ ' · ' }}<span v-translate="'label_level'"></span> {{ entry.item.level }}
+          </p>
         </div>
       </div>
 
-      <div class="flex items-center gap-2">
-        <div v-if="entry.crafted" class="px-2 py-1 bg-gray-700 border border-gray-600 rounded text-xs text-gray-400 font-semibold" v-translate="'status_crafted'"></div>
-        <div v-else-if="canCraft" class="px-2 py-1 bg-green-900/30 border border-green-600 rounded text-xs text-green-400 font-semibold" v-translate="'status_can_craft'"></div>
+      <div class="craft-entry-actions">
+        <div v-if="entry.crafted" class="status-badge status-badge--crafted" v-translate="'status_crafted'"></div>
+        <div v-else-if="canCraft" class="status-badge status-badge--ready" v-translate="'status_can_craft'"></div>
         <button
           @click="emit('remove', entry.item.id)"
-          class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded transition-colors"
+          class="btn-danger btn-sm"
           v-translate="'remove_button'"
         ></button>
       </div>
     </div>
 
-    <!-- Ingredients (hidden when crafted) -->
     <template v-if="!entry.crafted">
-      <div v-if="loading" class="text-xs text-gray-500" v-translate="'loading_ingredients'"></div>
-      <div v-else-if="!craft || craft.length === 0" class="text-xs text-gray-500" v-translate="'no_craft_available'"></div>
-      <div v-else class="space-y-1">
-        <p class="text-xs text-gray-500 mb-2" v-translate="'ingredients_label'"></p>
+      <div v-if="loading" class="craft-entry-status" v-translate="'loading_ingredients'"></div>
+      <div v-else-if="!craft || craft.length === 0" class="craft-entry-status" v-translate="'no_craft_available'"></div>
+      <div v-else class="craft-ingredients">
+        <p class="craft-ingredients-label" v-translate="'ingredients_label'"></p>
         <div
           v-for="ingredient in craft"
           :key="ingredient.item.id"
-          class="flex items-center justify-between text-xs px-2 py-1 bg-gray-900/50 rounded"
+          class="ingredient-line"
         >
-          <span class="text-gray-300">{{ ingredient.item.name }}</span>
-          <div class="flex items-center gap-2">
-            <span class="text-gray-400">{{ ingredient.quantity }}×</span>
+          <span class="ingredient-line-name">{{ ingredient.item.name }}</span>
+          <div class="ingredient-line-qty">
+            <span class="ingredient-line-need">{{ ingredient.quantity }}×</span>
             <span
               :class="(inventory.find(inv => inv.item.id === ingredient.item.id)?.quantity ?? 0) >= ingredient.quantity
-                ? 'text-green-400 font-semibold'
-                : 'text-red-400'"
+                ? 'ingredient-line-owned--ok'
+                : 'ingredient-line-owned--missing'"
             >
               ({{ inventory.find(inv => inv.item.id === ingredient.item.id)?.quantity ?? 0 }})
             </span>
@@ -100,11 +100,10 @@ onMounted(async () => {
         </div>
       </div>
 
-      <!-- Craft Button -->
       <button
         v-if="canCraft"
         @click="emit('craft', entry.item.id)"
-        class="w-full mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded transition-colors"
+        class="btn-primary craft-btn"
         v-translate="'craft_one_button'"
       ></button>
     </template>
@@ -112,4 +111,117 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.craft-entry {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  background: var(--color-bg-surface);
+  transition: opacity 0.2s;
+}
+.craft-entry--crafted {
+  opacity: 0.5;
+}
+.craft-entry--ready {
+  border-color: var(--color-success);
+}
+
+.craft-entry-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  gap: 0.75rem;
+}
+
+.craft-entry-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex: 1;
+}
+.craft-entry-meta { flex: 1; }
+.craft-entry-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+.craft-entry-name--crafted {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+.craft-entry-sub {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin: 0.15rem 0 0;
+}
+
+.craft-entry-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.status-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.status-badge--crafted {
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+  background: var(--color-bg-elevated);
+}
+.status-badge--ready {
+  color: var(--color-success);
+  border-color: var(--color-success);
+  background: color-mix(in srgb, var(--color-success) 12%, transparent);
+}
+
+.btn-sm {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+}
+
+.craft-entry-status {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: 0.25rem;
+}
+
+.craft-ingredients {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.25rem;
+}
+.craft-ingredients-label {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  margin: 0 0 0.4rem;
+}
+.ingredient-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--color-bg-elevated);
+  border-radius: 4px;
+}
+.ingredient-line-name { color: var(--color-text-secondary); }
+.ingredient-line-qty { display: flex; gap: 0.4rem; align-items: center; }
+.ingredient-line-need { color: var(--color-text-muted); }
+.ingredient-line-owned--ok { color: var(--color-success); font-weight: 700; }
+.ingredient-line-owned--missing { color: var(--color-error); font-weight: 700; }
+
+.craft-btn {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+}
 </style>

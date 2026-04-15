@@ -21,13 +21,11 @@ const statValue = computed(() => {
   }
   return `${props.min} - ${props.max}`
 })
-
 </script>
 
 <template>
-  <div class="flex items-center gap-2 text-sm">
-    <!-- Icon -->
-    <div class="stat-icon-container flex-shrink-0" :style="{ width: `${size || 20}px`, height: `${size || 20}px` }">
+  <div class="stat-row">
+    <div class="stat-icon" :style="{ width: `${size || 20}px`, height: `${size || 20}px` }">
       <StatIconPlaceholder v-if="iconError" :size="size || 20" />
       <img
         v-else
@@ -36,19 +34,33 @@ const statValue = computed(() => {
         @error="iconError = true"
       />
     </div>
-
-    <!-- Stat label and value -->
-    <div class="flex items-center gap-1.5">
-      <span class="text-gray-400"><span v-translate="statTranslationKey"></span>:</span>
-      <span class="text-gray-100 font-semibold">{{ statValue }}</span>
+    <div class="stat-text">
+      <span class="stat-label"><span v-translate="statTranslationKey"></span>:</span>
+      <span class="stat-value">{{ statValue }}</span>
     </div>
   </div>
 </template>
 
 <style scoped>
-.stat-icon-container {
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.stat-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
+
+.stat-text {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.stat-label { color: var(--color-text-muted); }
+.stat-value { color: var(--color-text-primary); font-weight: 600; }
 </style>

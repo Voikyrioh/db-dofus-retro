@@ -303,3 +303,33 @@ The backend API is available at `http://localhost:3000` (configurable in `src/co
 - This project uses Vite 8.0 beta (specified in overrides)
 - TypeScript strict mode is enabled with additional linting rules
 - All source files must pass type checking before build succeeds
+
+## Déploiement
+
+- **Repo GitHub** : `voikyrioh/db-dofus-retro`
+- **Subdomain prod** : `dofus-db.voikyrioh.fr`
+- **Image GHCR** : `ghcr.io/voikyrioh/dofus-retro-db`
+- **Serveur** : nginx:alpine (fichiers statiques buildés)
+
+### Build Docker
+
+```dockerfile
+ARG VITE_API_URL=https://dofus-db-api.voikyrioh.fr
+```
+
+L'URL de l'API est injectée au moment du build via `--build-arg`. La valeur par défaut pointe vers la prod.
+
+En dev, `src/constants/api.ts` utilise `VITE_API_URL` ou fall back sur `/api`.
+
+### CI/CD
+
+Push sur `main` → `.github/workflows/ci.yml` → build image → appel `deploy-app.yml` (infra-as-code).
+
+```yaml
+uses: voikyrioh/infra-as-code/.github/workflows/deploy-app.yml@main
+```
+
+### Branches
+
+- `main` : prod (déclenche le CI)
+- `feat/redesign-graphique` : redesign graphique en cours — à merger dans `main` quand prêt

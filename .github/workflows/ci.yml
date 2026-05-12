@@ -6,7 +6,11 @@ on:
 
 jobs:
   deploy:
-    uses: voikyrioh/infra/.github/workflows/deploy-app.yml@main
+<<<<<<< HEAD
+    uses: voikyrioh/infra-as-code/.github/workflows/deploy-app.yml@main
+=======
+    uses: voikyrioh/infra-as-code/.github/workflows/deploy-app.yml@main
+>>>>>>> 04a43c7 (fix: correct infra repo name in reusable workflow reference)
     with:
       app_name: dofus-retro-db
       image_name: dofus-retro-db

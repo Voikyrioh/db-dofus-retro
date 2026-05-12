@@ -17,22 +17,19 @@ function handleSearch(event: Event) {
 </script>
 
 <template>
-  <form @submit="handleSearch" class="w-full">
-    <div class="flex gap-3">
-      <div class="flex-1">
-        <SearchInput
-          v-model="searchText"
-          placeholder="Search for items..."
-        />
-      </div>
-      <button
-        type="submit"
-        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400"
-        v-translate="'search_button'"
-      ></button>
-    </div>
+  <form @submit="handleSearch" class="search-form">
+    <SearchInput v-model="searchText" placeholder="Search for items..." />
+    <button type="submit" class="btn-primary search-submit" v-translate="'search_button'"></button>
   </form>
 </template>
 
 <style scoped>
+.search-form {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+.search-submit {
+  white-space: nowrap;
+}
 </style>

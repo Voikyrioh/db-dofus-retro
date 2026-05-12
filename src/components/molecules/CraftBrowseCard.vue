@@ -29,24 +29,22 @@ function handleView(entry: CraftListing) {
 </script>
 
 <template>
-  <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 flex flex-wrap gap-4 items-start">
-    <!-- Left: item info -->
-    <div class="flex items-center gap-3 min-w-40">
+  <div class="craft-browse-card">
+    <div class="craft-browse-item">
       <ItemSprite
         :category="entry.item.sprite?.category"
         :sprite="entry.item.sprite?.sprite"
         :size="48"
       />
-      <div>
-        <div class="font-bold text-blue-400">{{ entry.item.name }}</div>
-        <div class="text-xs text-gray-400 mt-1">
-          <span v-translate="'label_level'"></span> {{ entry.item.level }} • {{ entry.item.pod }} <span v-translate="'label_pods'"></span>
+      <div class="craft-browse-meta">
+        <div class="craft-browse-name">{{ entry.item.name }}</div>
+        <div class="craft-browse-sub">
+          <span v-translate="'label_level'"></span> {{ entry.item.level }} · {{ entry.item.pod }} <span v-translate="'label_pods'"></span>
         </div>
       </div>
     </div>
 
-    <!-- Middle: ingredients -->
-    <div class="flex-1 flex flex-wrap gap-2">
+    <div class="craft-browse-ingredients">
       <CraftIngredientCard
         v-for="ingredient in entry.recipe"
         :key="ingredient.item.id"
@@ -54,18 +52,17 @@ function handleView(entry: CraftListing) {
       />
     </div>
 
-    <!-- Right: actions -->
-    <div class="flex flex-col gap-2">
+    <div class="craft-browse-actions">
       <button
         @click="handleView(entry)"
-        class="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-gray-100 text-sm rounded transition-colors"
+        class="btn-secondary craft-browse-btn"
         v-translate="'view_button'"
       ></button>
       <button
         v-if="isLoggedIn"
         @click="handleAddToList(entry)"
-        class="px-3 py-1.5 text-sm rounded transition-colors"
-        :class="addedFlash ? 'bg-green-700 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'"
+        class="craft-browse-btn"
+        :class="addedFlash ? 'btn-secondary' : 'btn-primary'"
       >
         <span v-if="addedFlash" v-translate="'added_to_list'"></span>
         <span v-else v-translate="'add_to_list'"></span>
@@ -75,4 +72,50 @@ function handleView(entry: CraftListing) {
 </template>
 
 <style scoped>
+.craft-browse-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.craft-browse-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 10rem;
+}
+.craft-browse-meta { }
+.craft-browse-name {
+  font-weight: 700;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+}
+.craft-browse-sub {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: 0.15rem;
+}
+
+.craft-browse-ingredients {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.craft-browse-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.craft-browse-btn {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+  white-space: nowrap;
+}
 </style>

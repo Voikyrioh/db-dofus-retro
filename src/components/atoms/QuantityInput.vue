@@ -24,12 +24,17 @@ function handleInput(event: Event) {
     :min="min ?? 1"
     :max="max"
     @input="handleInput"
-    class="w-20 px-3 py-1 bg-gray-700 border border-gray-600 rounded text-gray-100 text-center focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors"
+    class="qty-input input-field"
   />
 </template>
 
 <style scoped>
-/* Hide number input spinner arrows */
+.qty-input {
+  width: 5rem;
+  text-align: center;
+  padding: 0.3rem 0.5rem;
+}
+
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;

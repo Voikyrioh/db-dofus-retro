@@ -22,9 +22,9 @@ const statEntries = computed(() => {
 </script>
 
 <template>
-  <div v-if="hasStats" class="bg-gray-800 border border-gray-700 rounded-lg p-4">
-    <h3 class="text-lg font-semibold text-blue-400 mb-3" v-translate="'statistics_title'"></h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+  <div v-if="hasStats" class="stats-panel">
+    <h3 class="stats-title" v-translate="'statistics_title'"></h3>
+    <div class="stats-grid">
       <StatDisplay
         v-for="stat in statEntries"
         :key="stat.key"
@@ -34,8 +34,40 @@ const statEntries = computed(() => {
       />
     </div>
   </div>
-  <div v-else class="bg-gray-800 border border-gray-700 rounded-lg p-4 text-center text-gray-500" v-translate="'no_statistics'"></div>
+  <div v-else class="stats-empty" v-translate="'no_statistics'"></div>
 </template>
 
 <style scoped>
+.stats-panel {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+.stats-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin: 0 0 0.75rem;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem;
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
+
+.stats-empty {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
 </style>

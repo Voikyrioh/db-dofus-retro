@@ -14,14 +14,14 @@ async function parseAuthError(response: Response): Promise<never> {
   throw new Error(typeof json === 'string' ? json : (text || response.statusText))
 }
 
-export async function register(data: RegisterData): Promise<AuthUser> {
+export async function register(data: RegisterData): Promise<void> {
   const response = await fetch(`${API_BASE_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
   if (!response.ok) return parseAuthError(response)
-  return response.json()
+  // 200 response has no body — do not call response.json()
 }
 
 export async function login(credentials: AuthCredentials): Promise<AuthUser> {

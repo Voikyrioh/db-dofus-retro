@@ -11,30 +11,26 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="bg-gray-800 border border-gray-700 rounded-lg p-4">
-    <h3 class="text-lg font-bold text-red-400 mb-3" v-translate="'missing_materials_title'"></h3>
+  <div class="missing-card card-ornate">
+    <h3 class="missing-title" v-translate="'missing_materials_title'"></h3>
 
-    <div v-if="missingMaterials.length === 0" class="text-center py-4">
-      <p class="text-green-400 font-semibold" v-translate="'all_materials_available'"></p>
+    <div v-if="missingMaterials.length === 0" class="missing-all-ok">
+      <p v-translate="'all_materials_available'"></p>
     </div>
 
-    <div v-else class="space-y-2">
+    <div v-else class="missing-list">
       <div
         v-for="material in missingMaterials"
         :key="material.item.id"
-        class="flex items-center justify-between text-sm bg-gray-900/50 rounded px-3 py-2"
+        class="missing-row"
       >
-        <div class="flex-1 min-w-0">
-          <p class="text-gray-100 truncate">{{ material.item.name }}</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-red-400 font-semibold">-{{ material.missing }}</span>
+        <p class="missing-name">{{ material.item.name }}</p>
+        <div class="missing-controls">
+          <span class="missing-qty">-{{ material.missing }}</span>
           <button
             @click="emit('addOne', material.item.id)"
-            class="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded transition-colors"
-          >
-            +1
-          </button>
+            class="btn-secondary missing-add-btn"
+          >+1</button>
         </div>
       </div>
     </div>
@@ -42,4 +38,61 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
+.missing-card {
+  padding: 1rem 1.25rem;
+}
+
+.missing-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-error);
+  margin: 0 0 0.75rem;
+}
+
+.missing-all-ok {
+  text-align: center;
+  padding: 0.75rem 0;
+  color: var(--color-success);
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.missing-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.missing-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.6rem;
+  background: var(--color-error-bg);
+  border-radius: 4px;
+}
+.missing-name {
+  color: var(--color-error);
+  font-weight: 600;
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.missing-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+.missing-qty {
+  color: var(--color-error);
+  font-weight: 700;
+}
+.missing-add-btn {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+}
 </style>

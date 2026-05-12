@@ -14,25 +14,22 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="w-full">
-    <!-- Loading state -->
-    <div v-if="loading" class="text-center py-8">
-      <p class="text-gray-400" v-translate="'searching_label'"></p>
+  <div class="results">
+    <div v-if="loading" class="results-status">
+      <p v-translate="'searching_label'"></p>
     </div>
 
-    <!-- Error state -->
-    <div v-else-if="error" class="bg-red-900/20 border border-red-700 rounded-lg p-4">
-      <p class="text-red-400">{{ error }}</p>
+    <div v-else-if="error" class="results-error">
+      <p>{{ error }}</p>
     </div>
 
-    <!-- Results -->
-    <div v-else-if="items.length > 0" class="space-y-4">
-      <p class="text-gray-400 text-sm">
+    <div v-else-if="items.length > 0" class="results-found">
+      <p class="results-count">
         <span v-translate="'found_label'"></span>
         {{ items.length }}
         <span v-translate="items.length !== 1 ? 'item_plural' : 'item_singular'"></span>
       </p>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="results-grid">
         <ItemCard
           v-for="item in items"
           :key="item.id"
@@ -42,12 +39,40 @@ const emit = defineEmits<{
       </div>
     </div>
 
-    <!-- No results -->
-    <div v-else class="text-center py-8">
-      <p class="text-gray-400" v-translate="'no_items_found'"></p>
+    <div v-else class="results-status">
+      <p v-translate="'no_items_found'"></p>
     </div>
   </div>
 </template>
 
 <style scoped>
+.results { width: 100%; }
+
+.results-status {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.results-error {
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--color-error);
+  font-size: 0.875rem;
+}
+
+.results-count {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin: 0 0 1rem;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
 </style>

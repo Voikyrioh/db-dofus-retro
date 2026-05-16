@@ -36,7 +36,8 @@ function closeDropdowns(): void {
     <div class="header-top">
       <div class="header-inner">
         <button class="site-logo" @click="navigate('home')">
-          ⚔ <span v-translate="'site_title'"></span>
+          <img src="/assets/logo-ico.webp" alt="" class="site-logo-ico" />
+          <span v-translate="'site_title'"></span>
         </button>
 
         <div class="header-controls">
@@ -119,6 +120,13 @@ function closeDropdowns(): void {
   cursor: pointer;
   padding: 0;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.site-logo-ico {
+  height: 3rem;
+  width: auto;
 }
 .site-logo:focus-visible {
   outline: 2px solid var(--color-accent);

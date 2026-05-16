@@ -26,8 +26,7 @@ function navigate(page: 'items' | 'crafts' | 'login' | 'crafting-list'): void {
       <template v-if="!isLoggedIn">
         <section class="hero">
           <div class="hero-inner">
-            <div class="hero-icon">⚔</div>
-            <h1 class="hero-title" v-translate="'site_title'"></h1>
+            <img src="/assets/logo.webp" alt="" class="hero-logo" />
             <p class="hero-subtitle" v-translate="'home_subtitle'"></p>
             <button class="btn-primary hero-cta" @click="navigate('items')" v-translate="'home_cta_search'"></button>
           </div>
@@ -37,25 +36,25 @@ function navigate(page: 'items' | 'crafts' | 'login' | 'crafting-list'): void {
           <div class="tiles-grid">
             <button class="tile card-ornate" @click="navigate('items')">
               <OrnateCorners />
-              <div class="tile-icon">🗡</div>
+              <div class="tile-icon"><img src="/assets/icons/items.svg" alt="" /></div>
               <div class="tile-label" v-translate="'home_tile_items'"></div>
               <div class="tile-sub" v-translate="'home_tile_items_sub'"></div>
             </button>
             <button class="tile card-ornate" @click="navigate('crafts')">
               <OrnateCorners />
-              <div class="tile-icon">📜</div>
+              <div class="tile-icon"><img src="/assets/icons/recipes.svg" alt="" /></div>
               <div class="tile-label" v-translate="'home_tile_crafts'"></div>
               <div class="tile-sub" v-translate="'home_tile_crafts_sub'"></div>
             </button>
             <button class="tile card-ornate tile--disabled" disabled>
               <OrnateCorners />
-              <div class="tile-icon">👾</div>
+              <div class="tile-icon"><img src="/assets/icons/monsters.svg" alt="" /></div>
               <div class="tile-label" v-translate="'home_tile_monsters'"></div>
               <div class="tile-sub" v-translate="'home_tile_monsters_sub'"></div>
             </button>
             <button class="tile card-ornate" @click="navigate('login')">
               <OrnateCorners />
-              <div class="tile-icon">👤</div>
+              <div class="tile-icon"><img src="/assets/icons/account.svg" alt="" /></div>
               <div class="tile-label" v-translate="'home_tile_login'"></div>
               <div class="tile-sub" v-translate="'home_tile_login_sub'"></div>
             </button>
@@ -149,14 +148,9 @@ function navigate(page: 'items' | 'crafts' | 'login' | 'crafting-list'): void {
   align-items: center;
   gap: 1rem;
 }
-.hero-icon {
-  font-size: 3rem;
-}
-.hero-title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--color-accent);
-  margin: 0;
+.hero-logo {
+  height: 18rem;
+  width: auto;
 }
 .hero-subtitle {
   font-size: 1rem;
@@ -210,8 +204,17 @@ function navigate(page: 'items' | 'crafts' | 'login' | 'crafting-list'): void {
   box-shadow: none;
 }
 .tile-icon {
-  font-size: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tile-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .tile-label {
   font-weight: 800;

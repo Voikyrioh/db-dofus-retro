@@ -9,12 +9,15 @@ RUN --mount=type=secret,id=github_token \
     npm config set //npm.pkg.github.com/:_authToken "$(cat /run/secrets/github_token)" && \
     npm ci
 
-COPY . .
+COPY index.html vite.config.ts tsconfig*.json tailwind.config.js postcss.config.js ./
+COPY src/ ./src/
+
 RUN npm run build
 
 FROM nginx:alpine AS runner
 
 COPY --from=builder /dist /usr/share/nginx/html
+COPY public/ /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80

@@ -6,7 +6,8 @@ ENV VITE_API_URL=$VITE_API_URL
 ARG GITHUB_TOKEN
 ENV GITHUB_TOKEN=$GITHUB_TOKEN
 
-COPY package*.json .npmrc ./
+COPY package*.json .
+COPY .npmrc .
 RUN npm ci
 
 COPY . .

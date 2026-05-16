@@ -3,9 +3,11 @@ FROM node:24-alpine AS builder
 ARG VITE_API_URL=https://dofus-db-api.voikyrioh.fr
 ENV VITE_API_URL=$VITE_API_URL
 
-COPY package*.json .npmrc ./
-RUN --mount=type=secret,id=github_token \
-    GITHUB_TOKEN=$(cat /run/secrets/github_token) npm ci
+ARG GITHUB_TOKEN
+COPY package*.json ./
+RUN npm config set @Voikyrioh:registry https://npm.pkg.github.com/ && \
+    npm config set //npm.pkg.github.com/:_authToken "${GITHUB_TOKEN}" && \
+    npm ci
 
 COPY . .
 RUN npm run build

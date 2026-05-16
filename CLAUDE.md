@@ -250,36 +250,34 @@ export function useCraftingList() {
 - `dofus-inventory` - User's inventory (owned items with quantities)
 
 ### Item Assets Structure
-Item visual assets are stored as SVG sprite files in the `public/assets/items/` directory with the following structure:
+Item visual assets are stored as SVG files in the `public/assets/items/` directory with the following structure:
 
 ```
-public/assets/items/<typeId>/<gfxId>/<sprite>.svg
+public/assets/items/<CATEGORY>/<gfxId>.svg
 ```
 
 **Path Components:**
-- `typeId`: The item type identifier (matches `Item.type` field)
-- `gfxId`: The graphics identifier unique to each item visual
-- `<sprite>.svg`: Individual SVG files representing different sprite components
+- `CATEGORY`: Named or numeric item type folder (e.g. `EPEE`, `ARC`, `117`)
+- `gfxId`: The graphics identifier — used as the filename (without `.svg`)
 
 **Example:**
 ```
-public/assets/items/2/1/1.svg
-public/assets/items/50/1/1.svg
-public/assets/items/50/1/3.svg
-public/assets/items/50/1/5.svg
+public/assets/items/EPEE/42.svg
+public/assets/items/ARC/7.svg
+public/assets/items/117/16.svg
 ```
 
 **Usage:**
-To display an item's sprite, construct the path using the item's `typeId` and `gfxId`:
+One SVG file per item. Path constructed from `item.sprite.category` and `item.sprite.sprite`:
 ```typescript
-const spritePath = `/assets/items/${item.typeId}/${item.gfxId}/`
-// Then load all SVG files from this directory
+const spritePath = `/assets/items/${item.sprite.category}/${item.sprite.sprite}.svg`
 ```
 
-**Notes:**
-- Multiple SVG files in a gfxId folder represent multi-part sprites
-- All SVG files are at the root level of each gfxId folder (flat structure)
-- File names are numeric (1.svg, 3.svg, 5.svg, etc.)
+**Docker:**
+`public/assets/items/` is excluded from the Docker build context (`.dockerignore`). The runner stage extracts `data/items.zip` at build time instead. To update assets in production, regenerate the zip and release:
+```bash
+cd public/assets && zip -r ../../data/items.zip items/
+```
 
 ## API Endpoints
 

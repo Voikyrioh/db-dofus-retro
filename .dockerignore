@@ -1,6 +1,7 @@
 node_modules
 dist
 .npmrc
+public/assets/items
 .git
 .github
 *.md

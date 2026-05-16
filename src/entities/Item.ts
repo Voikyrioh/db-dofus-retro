@@ -8,7 +8,7 @@ export interface Item {
   level: number
   stats?: Statistics
   sprite?: {
-    category: number
+    category: string | number
     sprite: number
   }
 }

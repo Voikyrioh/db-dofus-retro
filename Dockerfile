@@ -18,6 +18,11 @@ RUN npm run build
 FROM nginx:alpine AS runner
 
 COPY --from=builder /dist /usr/share/nginx/html
+COPY data/items.zip /tmp/items.zip
+RUN apk add --no-cache unzip \
+    && unzip -q /tmp/items.zip -d /usr/share/nginx/html/assets/ \
+    && rm /tmp/items.zip \
+    && apk del unzip
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80

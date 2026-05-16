@@ -23,9 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-# Uncompressed assets
+# Uncompressed assets (managed via data/items.zip + Git LFS)
 public/assets/items
-public/assets/icons
 
 # Git worktrees
 .worktrees/

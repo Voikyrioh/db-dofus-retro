@@ -13,13 +13,13 @@ RUN --mount=type=secret,id=github_token \
 
 COPY index.html vite.config.ts tsconfig*.json tailwind.config.js postcss.config.js ./
 COPY src/ ./src/
+COPY public/ ./public/
 
 RUN npm run build:docker
 
 FROM nginx:alpine AS runner
 
 COPY --from=builder /app/dist /usr/share/nginx/html
-COPY public/ /usr/share/nginx/html/
 COPY data/items.zip /tmp/items.zip
 RUN apk add --no-cache unzip \
     && unzip -q /tmp/items.zip -d /usr/share/nginx/html/assets/ \

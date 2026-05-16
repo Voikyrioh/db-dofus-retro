@@ -8,9 +8,6 @@ export default defineConfig({
     vue(),
     tailwindcss()
   ],
-  build: {
-    copyPublicDir: false
-  },
   server: {
     proxy: {
       '/api': {

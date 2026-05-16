@@ -1,5 +1,7 @@
 FROM node:24-alpine AS builder
 
+WORKDIR /app
+
 ARG VITE_API_URL=https://dofus-db-api.voikyrioh.fr
 ENV VITE_API_URL=$VITE_API_URL
 
@@ -16,7 +18,7 @@ RUN npm run build:docker
 
 FROM nginx:alpine AS runner
 
-COPY --from=builder /dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 COPY public/ /usr/share/nginx/html/
 COPY data/items.zip /tmp/items.zip
 RUN apk add --no-cache unzip \

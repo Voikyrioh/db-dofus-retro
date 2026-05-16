@@ -16,13 +16,9 @@ export function getAuthHeaders(): HeadersInit {
 export function useAuth() {
   const isLoggedIn = computed(() => token.value !== null)
 
-  function setTokenFromCookie() {
-    const match = document.cookie.split('; ').find(row => row.startsWith('access-token='))
-    if (match) {
-      const value = match.split('=')[1] ?? ''
-      token.value = value
-      localStorage.setItem(STORAGE_KEY, value)
-    }
+  function setToken(value: string) {
+    token.value = value
+    localStorage.setItem(STORAGE_KEY, value)
   }
 
   function setUser(authUser: AuthUser) {
@@ -38,5 +34,5 @@ export function useAuth() {
     localStorage.removeItem(USER_STORAGE_KEY)
   }
 
-  return { token, user, isLoggedIn, setTokenFromCookie, setUser, logout }
+  return { token, user, isLoggedIn, setToken, setUser, logout }
 }

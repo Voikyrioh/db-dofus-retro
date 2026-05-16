@@ -6,7 +6,7 @@ import OrnateCorners from '../atoms/OrnateCorners.vue'
 import { login } from '../../services/authService'
 import { useAuth } from '../../composables/useAuth'
 
-const { setTokenFromCookie, setUser } = useAuth()
+const { setToken, setUser } = useAuth()
 
 function navigate(page: string) {
   ;(window as any).navigateTo?.(page)
@@ -21,9 +21,9 @@ async function handleSubmit() {
   error.value = null
   loading.value = true
   try {
-    const authUser = await login({ username: username.value, password: password.value })
-    setUser(authUser)
-    setTokenFromCookie()
+    const authResponse = await login({ username: username.value, password: password.value })
+    setToken(authResponse.token)
+    setUser(authResponse)
     navigate('home')
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'Login failed'

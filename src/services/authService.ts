@@ -24,7 +24,11 @@ export async function register(data: RegisterData): Promise<void> {
   // 200 response has no body — do not call response.json()
 }
 
-export async function login(credentials: AuthCredentials): Promise<AuthUser> {
+export interface AuthLoginResponse extends AuthUser {
+  token: string
+}
+
+export async function login(credentials: AuthCredentials): Promise<AuthLoginResponse> {
   const response = await fetch(`${API_BASE_URL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

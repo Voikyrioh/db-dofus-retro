@@ -4,9 +4,8 @@ ARG VITE_API_URL=https://dofus-db-api.voikyrioh.fr
 ENV VITE_API_URL=$VITE_API_URL
 
 COPY package*.json ./
-RUN --mount=type=secret,id=GITHUB_TOKEN \
-    echo "@Voikyrioh:registry=https://npm.pkg.github.com \
-//npm.pkg.github.com/:_authToken=$(head -n 1 /run/secrets/GITHUB_TOKEN)" > ~/.npmrc
+RUN --mount=type=secret,id=GITHUB_TOKEN
+ENV GITHUB_TOKEN = ${head -n 1 /run/secrets/GITHUB_TOKEN}
 
 RUN npm ci
 

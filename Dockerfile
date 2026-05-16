@@ -3,7 +3,10 @@ FROM node:24-alpine AS BUILDER
 ARG VITE_API_URL=https://dofus-db-api.voikyrioh.fr
 ENV VITE_API_URL=$VITE_API_URL
 
-COPY package*.json ./
+ARG GITHUB_TOKEN
+ENV GITHUB_TOKEN=$GITHUB_TOKEN
+
+COPY package*.json .npmrc ./
 RUN npm ci
 
 COPY . .

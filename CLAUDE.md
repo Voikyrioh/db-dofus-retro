@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+**Avant toute tâche**, lire [`ARCHITECTURE.md`](./ARCHITECTURE.md) puis [`docs/INDEX.md`](./docs/INDEX.md). Skills obligatoires : `/code-search`, `/dev-task`, `/bugfix`, `/doc-update`.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
